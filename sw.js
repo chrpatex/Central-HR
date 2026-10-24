@@ -1,5 +1,5 @@
 // Small service worker: lets the phone install the app and shows a friendly page when offline.
-const CACHE = 'timenote-v1';
+const CACHE = 'timenote-v3';
 const SHELL = ['./', './index.html', './config.js', './hr/', './hr/index.html',
   './icons/app-192.png', './icons/hr-192.png', './icons/app-logo.svg', './icons/hr-logo.svg'];
 self.addEventListener('install', e => {

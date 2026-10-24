@@ -14,7 +14,7 @@
  <line x1="256" y1="256" x2="256" y2="156" stroke="#ffffff" stroke-width="22" stroke-linecap="round"/>
  <line x1="256" y1="256" x2="318" y2="292" stroke="#ffffff" stroke-width="22" stroke-linecap="round"/>
  <circle cx="256" cy="256" r="20" fill="url(#or)"/>
- <circle cx="392" cy="392" r="64" fill="url(#or)" stroke="#1d3d63" stroke-width="12"/>
- <path d="M362,392 l22,22 l40,-44" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+ <circle cx="120" cy="392" r="64" fill="url(#or)" stroke="#1d3d63" stroke-width="12"/>
+ <path d="M90,392 l22,22 l40,-44" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 </svg>
