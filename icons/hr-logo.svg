@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#16304f"/><stop offset="1" stop-color="#2f6aa3"/></linearGradient>
+ <linearGradient id="or" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffbe55"/><stop offset="1" stop-color="#f08a24"/></linearGradient>
+ <radialGradient id="glow" cx=".5" cy=".35" r=".7"><stop offset="0" stop-color="#ffffff" stop-opacity=".18"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="512" height="512" rx="112" fill="url(#bg)"/>
+<rect width="512" height="512" rx="112" fill="url(#glow)"/>
+<g transform="translate(0.0,0.0) scale(1.0)">
+ <circle cx="256" cy="256" r="150" fill="#ffffff" fill-opacity=".08"/>
+ <path d="M403.7,230.0 A150,150 0 1 1 217.2,111.1" fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round"/>
+ <path d="M256.0,106.0 A150,150 0 0 1 388.4,185.6" fill="none" stroke="url(#or)" stroke-width="26" stroke-linecap="round"/>
+ <g transform="translate(400.9,217.2) rotate(165)"><path d="M-30,-22 L8,0 L-30,22 Z" fill="#f59a2f" stroke="#f59a2f" stroke-width="6" stroke-linejoin="round"/></g>
+ <line x1="256" y1="256" x2="256" y2="156" stroke="#ffffff" stroke-width="22" stroke-linecap="round"/>
+ <line x1="256" y1="256" x2="318" y2="292" stroke="#ffffff" stroke-width="22" stroke-linecap="round"/>
+ <circle cx="256" cy="256" r="20" fill="url(#or)"/>
+ <circle cx="392" cy="392" r="64" fill="url(#or)" stroke="#1d3d63" stroke-width="12"/>
+ <text x="392" y="410" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="54" fill="#fff" letter-spacing="-1">HR</text>
+</g>
+</svg>
