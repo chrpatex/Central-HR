@@ -14,91 +14,201 @@
 <link rel="apple-touch-icon" href="../icons/hr-apple-180.png">
 <script src="../config.js"></script>
 <style>
-  html,body{margin:0;height:100%;background:#0d3b36;overflow:hidden;
-    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  :root{--c1:#0d3b36;--c2:#1f8a76;--accent:#f59a2f}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--c1);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  .hidden{display:none!important}
+
+  /* ---------- Installed app: portal ---------- */
   #app{position:fixed;inset:0;width:100%;height:100%;border:0;background:#f3f5f9;
-    padding-top:env(safe-area-inset-top);box-sizing:border-box}
+    padding-top:env(safe-area-inset-top)}
   #splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
-    background:linear-gradient(135deg,#0d3b36,#1f8a76);color:#fff;transition:opacity .35s;z-index:5;text-align:center;padding:24px}
+    background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;transition:opacity .35s;z-index:5;text-align:center;padding:24px}
   #splash.gone{opacity:0;pointer-events:none}
   #splash img{width:104px;height:104px;border-radius:24px;box-shadow:0 14px 40px rgba(0,0,0,.35);animation:pop .5s ease-out}
   @keyframes pop{from{transform:scale(.8);opacity:0}}
-  #splash h1{margin:6px 0 0;font-size:24px;letter-spacing:.01em}
+  #splash h1{margin:6px 0 0;font-size:24px}
   #splash p{margin:0;opacity:.75;font-size:14px}
   .bar{width:120px;height:4px;border-radius:4px;background:rgba(255,255,255,.2);overflow:hidden;margin-top:10px}
-  .bar i{display:block;width:40%;height:100%;background:#f59a2f;border-radius:4px;animation:slide 1.1s ease-in-out infinite}
+  .bar i{display:block;width:40%;height:100%;background:var(--accent);border-radius:4px;animation:slide 1.1s ease-in-out infinite}
   @keyframes slide{from{transform:translateX(-100%)}to{transform:translateX(250%)}}
   #msg{max-width:320px;font-size:14px;line-height:1.5;opacity:.9;margin-top:6px}
-  #msg button{margin-top:12px;border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:700;background:#f59a2f;color:#fff}
-  #install{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:6;display:none;
-    align-items:center;gap:12px;background:#fff;border-radius:16px;padding:12px 14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-  #install img{width:40px;height:40px;border-radius:10px}
-  #install div{flex:1;font-size:13.5px;color:#1c2430;line-height:1.35}
-  #install b{display:block;font-size:14.5px}
-  #install .go{border:0;border-radius:10px;padding:9px 14px;font:inherit;font-weight:700;background:#114a43;color:#fff}
-  #install .x{border:0;background:none;font-size:20px;color:#6b7686;padding:4px 6px}
+  #msg button{margin-top:12px;border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:700;background:var(--accent);color:#fff}
+
+  /* ---------- Browser: install page ---------- */
+  #gate{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:32px 20px calc(28px + env(safe-area-inset-bottom));color:#fff;text-align:center;
+    background:radial-gradient(120% 70% at 50% 0%,rgba(255,255,255,.14),transparent 60%),linear-gradient(160deg,var(--c1),var(--c2))}
+  #gate .logo{width:112px;height:112px;border-radius:26px;box-shadow:0 18px 44px rgba(0,0,0,.35);animation:pop .5s ease-out}
+  #gate h1{margin:18px 0 4px;font-size:27px;letter-spacing:.01em}
+  #gate .tag{margin:0;opacity:.8;font-size:15px}
+  .card{width:100%;max-width:380px;background:#fff;color:#1c2430;border-radius:20px;padding:20px 18px;margin-top:26px;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);text-align:left}
+  .card h2{margin:0 0 4px;font-size:17px}
+  .card .sub{margin:0 0 14px;color:#6b7686;font-size:13.5px;line-height:1.45}
+  .big{width:100%;border:0;border-radius:14px;padding:16px;font:inherit;font-size:16.5px;font-weight:800;cursor:pointer;
+    background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;
+    box-shadow:0 8px 20px rgba(245,154,47,.35);text-decoration:none}
+  .big:active{transform:scale(.98)}
+  .big.dark{background:var(--c1);box-shadow:none}
+  .big svg{width:20px;height:20px}
+  .steps{margin:0;padding:0;list-style:none;counter-reset:s}
+  .steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid #eef1f5;font-size:14.5px;line-height:1.45}
+  .steps li:first-child{border-top:0;padding-top:2px}
+  .steps li::before{content:counter(s);flex:0 0 26px;height:26px;border-radius:50%;background:var(--c1);color:#fff;
+    font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:-1px}
+  .k{display:inline-flex;align-items:center;gap:4px;background:#f1f4f8;border:1px solid #e3e8ef;border-radius:7px;
+    padding:1px 7px;font-weight:700;font-size:13.5px;white-space:nowrap}
+  .k svg{width:14px;height:14px}
+  .wait{display:flex;align-items:center;gap:10px;color:#6b7686;font-size:13.5px;margin:2px 0 12px}
+  .spin{width:16px;height:16px;border:2.5px solid #dfe5ec;border-top-color:var(--c1);border-radius:50%;animation:r .8s linear infinite}
+  @keyframes r{to{transform:rotate(360deg)}}
+  .or{display:flex;align-items:center;gap:10px;color:#9aa4b2;font-size:12px;margin:16px 0 10px;text-transform:uppercase;letter-spacing:.08em}
+  .or::before,.or::after{content:'';flex:1;height:1px;background:#e8ecf1}
+  .done{display:flex;gap:12px;align-items:center;background:#e9f7ef;color:#166c3b;border-radius:12px;padding:12px;font-size:14px;font-weight:600;margin-bottom:12px}
+  .done b{font-size:22px}
+  .skip{margin-top:18px;background:none;border:0;color:#fff;opacity:.75;font:inherit;font-size:14px;text-decoration:underline;
+    text-underline-offset:3px;cursor:pointer;padding:8px}
+  .vtag{margin-top:6px;font-size:11.5px;opacity:.55;letter-spacing:.04em}
+  .vtag.sp{position:absolute;bottom:calc(18px + env(safe-area-inset-bottom));left:0;right:0}
+  .copy{margin-top:10px;width:100%;border:1.5px dashed #cdd5df;background:#f8fafc;border-radius:12px;padding:10px;font:inherit;
+    font-size:13px;color:#1c2430;cursor:pointer;word-break:break-all}
 </style>
 </head>
 <body>
-  <div id="splash">
-    <img src="../icons/hr-512.png" alt="">
-    <h1>TimeNote HR</h1>
-    <p>HR Portal</p>
-    <div class="bar" id="bar"><i></i></div>
-    <div id="msg"></div>
-  </div>
-  <iframe id="app" title="TimeNote HR" allow="clipboard-write"></iframe>
 
-  <div id="install">
-    <img src="../icons/hr-192.png" alt="">
-    <div id="installTxt"><b>Install TimeNote HR</b>Open it like an app from your home screen.</div>
-    <button class="go" id="installGo">Install</button>
-    <button class="x" id="installX" aria-label="Close">×</button>
-  </div>
+<!-- Shown when opened in a normal browser: install first -->
+<div id="gate" class="hidden">
+  <img class="logo" src="../icons/hr-512.png" alt="">
+  <h1>TimeNote HR</h1>
+  <p class="tag">HR Portal</p>
+
+  <div class="card" id="card"></div>
+
+  <button class="skip" id="skip">Continue in browser without installing</button>
+  <div class="vtag">Version 1.0</div>
+</div>
+
+<!-- Shown when opened from the installed app -->
+<div id="splash" class="hidden">
+  <img src="../icons/hr-512.png" alt="">
+  <h1>TimeNote HR</h1>
+  <p>HR Portal</p>
+  <div class="bar" id="bar"><i></i></div>
+  <div id="msg"></div>
+  <div class="vtag sp">Version 1.0</div>
+</div>
+<iframe id="app" class="hidden" title="TimeNote HR" allow="clipboard-write"></iframe>
 
 <script>
-  const splash = document.getElementById('splash'), frame = document.getElementById('app');
-  const msg = document.getElementById('msg'), bar = document.getElementById('bar');
+  const $ = id => document.getElementById(id);
+  const NAME = 'TimeNote HR';
+  const ua = navigator.userAgent;
+  const isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isAndroid = /android/i.test(ua);
+  const isInApp = /FBAN|FBAV|Instagram|Line\/|Snapchat|WhatsApp|; wv\)/i.test(ua);       // WhatsApp/Facebook in-app browser
+  const isSamsung = /SamsungBrowser/i.test(ua);
+  const isIOSSafari = isIOS && /Safari/i.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua);
+  const standalone = matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches ||
+                     navigator.standalone === true || new URLSearchParams(location.search).has('app');
 
-  function fail(html){ bar.style.display = 'none'; msg.innerHTML = html; }
+  const ICON = {
+    dots: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>',
+    share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>',
+    plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg>',
+    down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>',
+    menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>'
+  };
 
-  if (!window.APP_URL || !/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(window.APP_URL)) {
-    fail('Setup needed: open <b>config.js</b> and paste your Apps Script Web app link (ending in <b>/exec</b>).');
-  } else if (!navigator.onLine) {
-    fail('You are offline. Connect to the internet and try again.<br><button onclick="location.reload()">Retry</button>');
-  } else {
-    frame.src = window.APP_URL + '?page=hr';
-    frame.addEventListener('load', () => setTimeout(() => splash.classList.add('gone'), 250));
-    setTimeout(() => { if (!splash.classList.contains('gone'))
+  // ================= Installed app → open the portal =================
+  function openPortal(){
+    $('gate').classList.add('hidden');
+    $('splash').classList.remove('hidden'); $('app').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    const fail = h => { $('bar').style.display = 'none'; $('msg').innerHTML = h; };
+    if (!window.APP_URL || !/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(window.APP_URL)) {
+      return fail('Setup needed: open <b>config.js</b> and paste your Apps Script Web app link (ending in <b>/exec</b>).');
+    }
+    if (!navigator.onLine) return fail('You are offline. Connect to the internet and try again.<br><button onclick="location.reload()">Retry</button>');
+    $('app').src = window.APP_URL + '?page=hr';
+    $('app').addEventListener('load', () => setTimeout(() => $('splash').classList.add('gone'), 250));
+    setTimeout(() => { if (!$('splash').classList.contains('gone'))
       fail('Taking longer than usual…<br><button onclick="location.reload()">Retry</button>'); }, 20000);
   }
-  window.addEventListener('online', () => { if (!frame.src) location.reload(); });
 
-  // Offline support + installability
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js', { scope: '../' }).catch(() => {});
-
-  // Install banner
-  const box = document.getElementById('install');
-  const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-  let dismissed = false; try { dismissed = localStorage.getItem('installDismissed') === '1'; } catch(e){}
-  function closeBox(){ box.style.display = 'none'; try { localStorage.setItem('installDismissed', '1'); } catch(e){} }
-  document.getElementById('installX').onclick = closeBox;
-  let deferred = null;
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault(); deferred = e;
-    if (!dismissed) box.style.display = 'flex';
-  });
-  document.getElementById('installGo').onclick = async () => {
-    if (deferred) { deferred.prompt(); await deferred.userChoice; deferred = null; }
-    closeBox();
-  };
-  // iPhone/iPad: Safari has no install button, so show how to add it
-  const iOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  if (iOS && !standalone && !dismissed) {
-    document.getElementById('installTxt').innerHTML = '<b>Install TimeNote HR</b>Tap <b style="display:inline">Share ⬆︎</b> then <b style="display:inline">Add to Home Screen</b>.';
-    document.getElementById('installGo').style.display = 'none';
-    setTimeout(() => box.style.display = 'flex', 1500);
+  // ================= Browser → install page =================
+  let deferred = null, waited = false;
+  function card(){
+    const c = $('card');
+    // 1) Inside WhatsApp / Facebook etc.: must open in a real browser first
+    if (isInApp) {
+      const chrome = 'intent://' + location.host + location.pathname + '#Intent;scheme=https;package=com.android.chrome;end';
+      c.innerHTML = '<h2>Open in your browser first</h2><p class="sub">Apps can\'t be installed from inside WhatsApp or Facebook.</p>' +
+        (isAndroid ? '<a class="big" href="' + chrome + '">Open in Chrome</a><div class="or">or</div>' : '') +
+        '<ol class="steps"><li><span>Tap <span class="k">' + ICON.dots + '</span> at the top right</span></li>' +
+        '<li><span>Choose <span class="k">Open in ' + (isIOS ? 'Safari' : 'browser') + '</span></span></li></ol>' +
+        '<button class="copy" id="copy">📋 Copy link: ' + location.href.split('?')[0] + '</button>';
+      $('copy').onclick = () => { try { navigator.clipboard.writeText(location.href.split('?')[0]); $('copy').textContent = '✓ Link copied – paste it in ' + (isIOS ? 'Safari' : 'Chrome'); } catch(e){} };
+      return;
+    }
+    // 2) Browser offers one-tap install (Chrome, Edge, Samsung…)
+    if (deferred) {
+      c.innerHTML = '<h2>Install the app</h2><p class="sub">One tap. It will appear on your home screen like any other app.</p>' +
+        '<button class="big" id="go">' + ICON.down + ' Install ' + NAME + '</button>';
+      $('go').onclick = async () => {
+        deferred.prompt();
+        const r = await deferred.userChoice; deferred = null;
+        if (r.outcome !== 'accepted') card();
+      };
+      return;
+    }
+    // 3) iPhone / iPad
+    if (isIOS) {
+      c.innerHTML = '<h2>Add to your Home Screen</h2>' +
+        (isIOSSafari ? '<p class="sub">iPhone installs apps from the Share menu.</p>' :
+                       '<p class="sub">On iPhone this works in <b>Safari</b> only. Open this link in Safari, then:</p>') +
+        '<ol class="steps"><li><span>Tap <span class="k">' + ICON.share + ' Share</span> at the bottom of the screen</span></li>' +
+        '<li><span>Scroll down and tap <span class="k">' + ICON.plus + ' Add to Home Screen</span></span></li>' +
+        '<li><span>Tap <span class="k">Add</span> at the top right</span></li></ol>';
+      return;
+    }
+    // 4) Waiting for the browser's install button (usually 1–3 seconds)
+    if (!waited) {
+      c.innerHTML = '<h2>Install the app</h2><div class="wait"><span class="spin"></span>Preparing install…</div>';
+      return;
+    }
+    // 5) No one-tap install: show the menu steps for this browser
+    const desk = !isAndroid;
+    c.innerHTML = '<h2>Install the app</h2><p class="sub">Use your browser menu:</p><ol class="steps">' +
+      (isSamsung
+        ? '<li><span>Tap <span class="k">' + ICON.menu + '</span> at the bottom right</span></li>' +
+          '<li><span>Tap <span class="k">Add page to</span></span></li><li><span>Choose <span class="k">Home screen</span></span></li>'
+        : desk
+        ? '<li><span>Look at the right end of the address bar for the <span class="k">' + ICON.down + ' Install</span> icon and click it</span></li>' +
+          '<li><span>Or open <span class="k">' + ICON.dots + '</span> → <span class="k">Save and share</span> / <span class="k">Apps</span> → <span class="k">Install ' + NAME + '</span></span></li>'
+        : '<li><span>Tap <span class="k">' + ICON.dots + '</span> at the top right</span></li>' +
+          '<li><span>Tap <span class="k">Install app</span> or <span class="k">Add to Home screen</span></span></li>' +
+          '<li><span>If asked, choose <span class="k">Install</span> (not "Create shortcut")</span></li>') +
+      '</ol>';
   }
+  function installed(){
+    $('card').innerHTML = '<div class="done"><b>✓</b>Installed! Open ' + NAME + ' from your home screen.</div>' +
+      '<button class="big dark" id="openNow">Open now</button>';
+    $('openNow').onclick = openPortal;
+  }
+
+  if (standalone) {
+    openPortal();
+  } else {
+    $('gate').classList.remove('hidden');
+    $('skip').onclick = openPortal;
+    window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; card(); });
+    window.addEventListener('appinstalled', installed);
+    card();
+    setTimeout(() => { waited = true; if (!deferred) card(); }, 3500);
+  }
+
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js', { scope: '../' }).catch(() => {});
 </script>
 </body>
 </html>
