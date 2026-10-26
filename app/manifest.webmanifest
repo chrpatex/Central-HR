@@ -1,14 +1,14 @@
 {
   "id": "timenote-employee",
-  "name": "TimeNote – Late, Early & Visit",
-  "short_name": "TimeNote",
-  "description": "Report late arrival, early going, absence and official visits.",
+  "name": "ETRS – Employee Time Regularization System",
+  "short_name": "ETRS",
+  "description": "A centralized platform for time-related requests, justifications, approvals, and exemptions.",
   "start_url": "./?app=1",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#16304f",
-  "theme_color": "#1f3a5f",
+  "background_color": "#1f1f22",
+  "theme_color": "#1f1f22",
   "icons": [
     {
       "src": "../icons/app-192.png",

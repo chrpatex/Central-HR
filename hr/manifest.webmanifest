@@ -1,13 +1,13 @@
 {
   "id": "timenote-hr",
-  "name": "TimeNote HR Portal",
-  "short_name": "TimeNote HR",
-  "description": "Live late, early going and visit reports for HR.",
+  "name": "ETRS HR Portal",
+  "short_name": "ETRS HR",
+  "description": "HR portal for the Employee Time Regularization System.",
   "start_url": "./?app=1",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0d3b36",
-  "theme_color": "#114a43",
+  "background_color": "#1f1f22",
+  "theme_color": "#1f1f22",
   "icons": [
     {
       "src": "../icons/hr-192.png",
