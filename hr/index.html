@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ETRS – Employee Time Regularization System</title>
+<title>ETRS HR Portal</title>
 <meta name="theme-color" content="#1f1f22">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ETRS">
+<meta name="apple-mobile-web-app-title" content="ETRS HR">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/svg+xml" href="../icons/app-logo.svg">
-<link rel="apple-touch-icon" href="../icons/app-apple-180.png">
+<link rel="icon" type="image/svg+xml" href="../icons/hr-logo.svg">
+<link rel="apple-touch-icon" href="../icons/hr-apple-180.png">
 <script src="../config.js"></script>
 <style>
   :root{--c1:#1f1f22;--c2:#3d3d42;--accent:#ffc72a}
@@ -81,9 +81,9 @@
 
 <!-- Shown when opened in a normal browser: install first -->
 <div id="gate" class="hidden">
-  <img class="logo" src="../icons/app-512.png" alt="">
-  <h1>ETRS</h1>
-  <p class="tag">Employee Time Regularization System</p>
+  <img class="logo" src="../icons/hr-512.png" alt="">
+  <h1>ETRS HR</h1>
+  <p class="tag">HR Portal · Employee Time Regularization System</p>
   <p class="tl">A centralized platform for time-related requests, justifications, approvals, and exemptions.</p>
 
   <div class="card" id="card"></div>
@@ -94,18 +94,18 @@
 
 <!-- Shown when opened from the installed app -->
 <div id="splash" class="hidden">
-  <img src="../icons/app-512.png" alt="">
-  <h1>ETRS</h1>
-  <p>Employee Time Regularization System</p>
+  <img src="../icons/hr-512.png" alt="">
+  <h1>ETRS HR</h1>
+  <p>HR Portal · Employee Time Regularization System</p>
   <div class="bar" id="bar"><i></i></div>
   <div id="msg"></div>
   <div class="vtag sp">Version 1.0</div>
 </div>
-<iframe id="app" class="hidden" title="ETRS" allow="clipboard-write"></iframe>
+<iframe id="app" class="hidden" title="ETRS HR" allow="clipboard-write"></iframe>
 
 <script>
   const $ = id => document.getElementById(id);
-  const NAME = 'ETRS';
+  const NAME = 'ETRS HR';
   const ua = navigator.userAgent;
   const isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const isAndroid = /android/i.test(ua);
@@ -133,7 +133,7 @@
       return fail('Setup needed: open <b>config.js</b> and paste your Apps Script Web app link (ending in <b>/exec</b>).');
     }
     if (!navigator.onLine) return fail('You are offline. Connect to the internet and try again.<br><button onclick="location.reload()">Retry</button>');
-    $('app').src = window.APP_URL + '';
+    $('app').src = window.APP_URL + '?page=hr';
     $('app').addEventListener('load', () => setTimeout(() => $('splash').classList.add('gone'), 250));
     setTimeout(() => { if (!$('splash').classList.contains('gone'))
       fail('Taking longer than usual…<br><button onclick="location.reload()">Retry</button>'); }, 20000);
